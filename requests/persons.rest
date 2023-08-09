@@ -1,11 +1,13 @@
 GET http://localhost:3001/api/persons
 
 ###
-
 GET http://localhost:3001/api/persons/1
 
 ###
-GET http://localhost:3001/api/persons/23
+GET http://localhost:3001/api/persons/5c41c90e84d891c15dfa3431
+
+###
+GET http://localhost:3001/api/persons/64d22905b4181966a7a2a939
 
 ###
 GET http://localhost:3001/info
@@ -14,7 +16,10 @@ GET http://localhost:3001/info
 DELETE http://localhost:3001/api/persons/1
 
 ###
-DELETE http://localhost:3001/api/persons/119
+DELETE http://localhost:3001/api/persons/5c41c90e84d891c15dfa3431
+
+###
+DELETE http://localhost:3001/api/persons/64d33594e75637f4946c8c91
 
 ###
 POST http://localhost:3001/api/persons
@@ -22,7 +27,7 @@ Content-Type: application/json
 
 {
     "name": "Genghis Khan",
-    "number": "122-234-234"
+    "number": "040-213-41224"
 }
 
 ###
@@ -42,10 +47,13 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3001/api/persons/
+PUT http://localhost:3001/api/persons/64d33c04c33953b7426eaafc
+Content-Type: application/json
+
+{
+    "name": "Genghis Khan (fake)",
+    "number": "040-213-41224"
+}
 
 ###
-GET http://localhost:3001/api/persons/1
-
-###
-GET http://localhost:3001/api/persons/190
+GET http://localhost:3001/api/persons/64d33c04c33953b7426eaafc
