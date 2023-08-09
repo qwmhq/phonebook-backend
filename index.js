@@ -8,7 +8,7 @@ const app = express()
 app.use(express.static('dist'))
 app.use(express.json())
 
-morgan.token('request-body', (req, res) => {
+morgan.token('request-body', (req) => {
     const body = JSON.stringify(req.body)
     return body !== '{}'
         ? body
@@ -78,14 +78,18 @@ app.put('/api/persons/:id', (req, res, next) => {
         number: body.number
     }
 
-    Person.findByIdAndUpdate(req.params.id, person, { new: true })
+    Person.findByIdAndUpdate(
+        req.params.id,
+        person,
+        { new: true, runValidators: true, context: 'query' }
+    )
         .then(updatedNote => {
             res.json(updatedNote)
         })
         .catch(err => next(err))
 })
 
-app.get('/info', (req, res) => {
+app.get('/info', (req, res, next) => {
     Person.count({})
         .then(count => {
             res.send(`<p>Phonebook has info for ${count} people<br/>
@@ -101,9 +105,10 @@ const unknownEndpoint = (req, res) => {
 app.use(unknownEndpoint)
 
 const errorHandler = (err, req, res, next) => {
-    console.log(err)
     if (err.name === 'CastError') {
         return res.status(404).send({ error: 'malformatted id' })
+    } else if (err.name === 'ValidationError') {
+        return res.status(400).json({ error: err.message })
     }
     next(err)
 }
