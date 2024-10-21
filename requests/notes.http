@@ -1,0 +1,21 @@
+### get all persons
+GET http://localhost:3001/api/persons
+
+
+### get person by id
+GET http://localhost:3001/api/persons/550
+
+
+### create persons
+POST http://localhost:3001/api/persons
+Accept: application/json
+Content-Type: application/json
+
+{
+	"name": "Alexander",
+	"number": "44-12345678"
+}
+
+### delete person
+@id_to_delete = 550
+DELETE http://localhost:3001/api/persons/{{id_to_delete}}
