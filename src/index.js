@@ -13,14 +13,6 @@ morgan.token('request-body', (req) => {
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :request-body'));
 app.use(express.static('dist'));
 
-app.use((request, response, next) => {
-	response.setHeader("Access-Control-Allow-Origin", "*");
-	response.setHeader("Access-Control-Allow-Methods", "GET HEAD PUT PATCH DELETE POST");
-	response.setHeader("Access-Control-Allow-Headers", "content-type");
-
-	next();
-});
-
 let persons = [
 	{
 		"id": "1",
