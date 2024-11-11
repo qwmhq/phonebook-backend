@@ -7,10 +7,10 @@ const app = express();
 app.use(express.json());
 
 morgan.token('request-body', (req) => {
-	const body = JSON.stringify(req.body)
+	const body = JSON.stringify(req.body);
 	return body !== '{}'
 		? body
-		: ''
+		: '';
 });
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :request-body'));
 
@@ -30,7 +30,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 			if (person) {
 				response.json(person);
 			} else {
-				response.statusMessage = "Person with the given id not found";
+				response.statusMessage = 'Person with the given id not found';
 				response.status(404).end();
 			}
 		})
@@ -48,25 +48,26 @@ app.delete('/api/persons/:id', (request, response) => {
 		});
 });
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
 	const body = request.body;
 
 	if (!body.name || !body.number) {
-		return response.status(400).json({ error: "name or number missing from request body" });
+		return response.status(400).json({ error: 'name or number missing from request body' });
 	}
 
 	const person = new Person({ name: body.name, number: body.number });
 	person.save()
 		.then(savedPerson => {
 			response.status(201).json(savedPerson);
-		});
+		})
+		.catch(error => next(error));
 });
 
 app.put('/api/persons/:id', (request, response) => {
 	const body = request.body;
 
 	if (!body.name || !body.number) {
-		return response.status(400).json({ error: "name or number missing from request body" });
+		return response.status(400).json({ error: 'name or number missing from request body' });
 	}
 
 	const person = { name: body.name, number: body.number };
@@ -105,10 +106,12 @@ const unknownEndpoint = (request, response) => {
 app.use(unknownEndpoint);
 
 const errorHandler = (error, request, response, next) => {
-	console.error(error.Message);
+	console.error(error.message);
 
 	if (error.name === 'CastError') {
 		return response.status(400).send({ error: 'malformatted id' });
+	} else if (error.name === 'ValidationError') {
+		return response.status(400).send({ error: error.message });
 	}
 
 	next(error);

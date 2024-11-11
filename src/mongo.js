@@ -15,7 +15,7 @@ const mongo_url =
 
 mongoose.set('strictQuery', false);
 
-await mongoose.connect(mongo_url)
+mongoose.connect(mongo_url)
 	.then(() => {
 		if (process.argv.length < 4) {
 			printAllPersons();
@@ -48,7 +48,7 @@ const addPerson = (name, number) => {
 
 	person
 		.save()
-		.then(result => {
+		.then(() => {
 			console.log(`added ${name} number ${number} to phonebook`);
 			mongoose.connection.close();
 		});
