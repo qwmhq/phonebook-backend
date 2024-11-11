@@ -3,10 +3,10 @@ GET http://localhost:3001/api/persons
 
 
 ### get person by id
-GET http://localhost:3001/api/persons/550
+GET http://localhost:3001/api/persons/64d333e9078be09179b1f3c9
 
 
-### create persons
+### create person
 POST http://localhost:3001/api/persons
 Accept: application/json
 Content-Type: application/json
@@ -16,6 +16,22 @@ Content-Type: application/json
 	"number": "44-12345678"
 }
 
+
+### update person
+PUT http://localhost:3001/api/persons/6731faa685f77478f1157d6a
+Accept: application/json
+Content-Type: application/json
+
+{
+	"name": "Alexandria",
+	"number": "44-12345678"
+}
+
+
 ### delete person
-@id_to_delete = 550
+@id_to_delete = 64d333e9078be09179b1f3c9
 DELETE http://localhost:3001/api/persons/{{id_to_delete}}
+
+
+### get info
+GET http://localhost:3001/api/info
